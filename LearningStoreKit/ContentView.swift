@@ -6,7 +6,7 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 24) {
             Button {
-                // - TODO: Purchase 100 coins
+                viewModel.purchase()
             } label: {
                 Text("100 coins (StoreKit 1)")
                     .font(.system(size: 14, weight: .bold))

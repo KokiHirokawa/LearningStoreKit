@@ -1,7 +1,7 @@
 import StoreKit
 import SwiftUI
 
-final class ContentViewModel: ObservableObject {
+final class ContentViewModel: NSObject, ObservableObject {
 
     @Published private(set) var products: [SKProduct] = []
     @Published private(set) var products2: [Product] = []
@@ -9,8 +9,15 @@ final class ContentViewModel: ObservableObject {
 
     private var updateListenerTask: Task<Void, Error>? = nil
 
-    init() {
+    private let inAppPurchaseObserver = InAppPurchaseObserver.shared
+
+    override init() {
+        super.init()
+
+        inAppPurchaseObserver.delegate = self
         updateListenerTask = listenForTransactions()
+
+        requestProducts()
 
         Task {
             await requestProducts2()
@@ -39,7 +46,11 @@ final class ContentViewModel: ObservableObject {
         }
     }
 
-    func requestProducts() {}
+    func requestProducts() {
+        let request = SKProductsRequest(productIdentifiers: [Const.oneHundredCoinsProductID])
+        request.delegate = self
+        request.start()
+    }
 
     @MainActor
     func requestProducts2() async {
@@ -49,6 +60,15 @@ final class ContentViewModel: ObservableObject {
         } catch {
             print("Failed product request from the App Store server: \(error)")
         }
+    }
+
+    func purchase() {
+        guard let product = products.first else {
+            return
+        }
+
+        let payment = SKPayment(product: product)
+        SKPaymentQueue.default().add(payment)
     }
 
     func purchase2() async {
@@ -80,6 +100,42 @@ final class ContentViewModel: ObservableObject {
     @MainActor
     private func succeedToPurchaseCoins() {
         coinAmount = coinAmount + 100
+    }
+}
+
+extension ContentViewModel: SKProductsRequestDelegate {
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        let products = response.products
+        guard !products.isEmpty else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.products = products
+        }
+    }
+}
+
+extension ContentViewModel: UpdatedTransactionObserver {
+    func updatedTransaction(_ transaction: SKPaymentTransaction) {
+        let paymentQueue = SKPaymentQueue.default()
+
+        switch transaction.transactionState {
+        case .purchasing:
+            break
+        case .purchased:
+            paymentQueue.finishTransaction(transaction)
+            Task {
+                await succeedToPurchaseCoins()
+            }
+        case .restored:
+            paymentQueue.finishTransaction(transaction)
+        case .deferred:
+            break
+        case .failed:
+            paymentQueue.finishTransaction(transaction)
+        @unknown default:
+            break
+        }
     }
 }
 
