@@ -19,6 +19,7 @@
 		A24585D62894D9250051222F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A24585D82894D9270051222F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A24585DB2894D9270051222F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A24585E22894DB780051222F /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +56,7 @@
 				A24585D62894D9250051222F /* ContentView.swift */,
 				A24585D82894D9270051222F /* Assets.xcassets */,
 				A24585DA2894D9270051222F /* Preview Content */,
+				A24585E22894DB780051222F /* Configuration.storekit */,
 			);
 			path = LearningStoreKit;
 			sourceTree = "<group>";
