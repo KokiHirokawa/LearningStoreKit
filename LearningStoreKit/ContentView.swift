@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = ContentViewModel()
+
     var body: some View {
         VStack(spacing: 24) {
             Button {
@@ -15,7 +17,9 @@ struct ContentView: View {
             .foregroundColor(Color.white)
 
             Button {
-                // - TODO: Purchase 100 coins
+                Task {
+                    await viewModel.purchase2()
+                }
             } label: {
                 Text("100 coins (StoreKit 2)")
                     .font(.system(size: 14, weight: .bold))
@@ -24,6 +28,13 @@ struct ContentView: View {
             .background(Color.black)
             .cornerRadius(8)
             .foregroundColor(Color.white)
+
+            Label {
+                Text("\(viewModel.coinAmount) coins")
+            } icon: {
+                Image(systemName: "coloncurrencysign.circle")
+            }
+
         }
     }
 }

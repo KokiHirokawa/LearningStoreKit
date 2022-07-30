@@ -11,6 +11,7 @@
 		A24585D72894D9250051222F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585D62894D9250051222F /* ContentView.swift */; };
 		A24585D92894D9270051222F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A24585D82894D9270051222F /* Assets.xcassets */; };
 		A24585DC2894D9270051222F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A24585DB2894D9270051222F /* Preview Assets.xcassets */; };
+		A24585E42894DDAE0051222F /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585E32894DDAE0051222F /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		A24585D82894D9270051222F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A24585DB2894D9270051222F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A24585E22894DB780051222F /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
+		A24585E32894DDAE0051222F /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				A24585D42894D9250051222F /* LearningStoreKitApp.swift */,
 				A24585D62894D9250051222F /* ContentView.swift */,
+				A24585E32894DDAE0051222F /* ContentViewModel.swift */,
 				A24585D82894D9270051222F /* Assets.xcassets */,
 				A24585DA2894D9270051222F /* Preview Content */,
 				A24585E22894DB780051222F /* Configuration.storekit */,
@@ -141,6 +144,7 @@
 			files = (
 				A24585D72894D9250051222F /* ContentView.swift in Sources */,
 				A24585D52894D9250051222F /* LearningStoreKitApp.swift in Sources */,
+				A24585E42894DDAE0051222F /* ContentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
