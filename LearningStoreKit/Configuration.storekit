@@ -1,7 +1,36 @@
 {
   "identifier" : "7950BE32",
   "nonRenewingSubscriptions" : [
-
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "CE50A8F0",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "learning.season.spring",
+      "referenceName" : "シーズンチケット（春）",
+      "type" : "NonRenewingSubscription"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "16273170",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "learning.season.summer",
+      "referenceName" : "シーズンチケット（夏）",
+      "type" : "NonRenewingSubscription"
+    }
   ],
   "products" : [
     {
@@ -23,13 +52,86 @@
       "productID" : "learning.coin.100",
       "referenceName" : "100コイン",
       "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "6566A310",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "learning.ad.hidden",
+      "referenceName" : "広告非表示",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {
     "_askToBuyEnabled" : true
   },
   "subscriptionGroups" : [
+    {
+      "id" : "64A66924",
+      "localizations" : [
 
+      ],
+      "name" : "Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "A9B2D3D9",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "learning.premium.month",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "プレミアム（1ヶ月）",
+          "subscriptionGroupID" : "64A66924",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "6.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "AAD643B2",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "learning.premium.year",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "プレミアム（1年）",
+          "subscriptionGroupID" : "64A66924",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
   ],
   "version" : {
     "major" : 1,
