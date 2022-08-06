@@ -15,7 +15,7 @@ struct SubscriptionsView: View {
 
             Section("Auto-Renewable Subscription") {
                 ForEach(store.subscriptions) { subscription in
-                    Text(subscription.displayName)
+                    AvailableSubscriptionView(subscription: subscription)
                 }
             }
         }

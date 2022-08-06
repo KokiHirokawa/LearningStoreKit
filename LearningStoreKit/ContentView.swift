@@ -17,9 +17,9 @@ struct ContentView: View {
             .foregroundColor(Color.white)
 
             Button {
-                Task {
-                    await viewModel.purchase2()
-                }
+//                Task {
+//                    await viewModel.purchase2()
+//                }
             } label: {
                 Text("100 coins (StoreKit 2)")
                     .font(.system(size: 14, weight: .bold))

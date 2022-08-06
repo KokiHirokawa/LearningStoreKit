@@ -70,7 +70,7 @@
     }
   ],
   "settings" : {
-    "_askToBuyEnabled" : true
+    "_askToBuyEnabled" : false
   },
   "subscriptionGroups" : [
     {

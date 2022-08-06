@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2410725289EA42E00D2916C /* AvailableSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2410724289EA42E00D2916C /* AvailableSubscriptionView.swift */; };
 		A24585D52894D9250051222F /* LearningStoreKitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585D42894D9250051222F /* LearningStoreKitApp.swift */; };
 		A24585D72894D9250051222F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585D62894D9250051222F /* ContentView.swift */; };
 		A24585D92894D9270051222F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A24585D82894D9270051222F /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A2410724289EA42E00D2916C /* AvailableSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableSubscriptionView.swift; sourceTree = "<group>"; };
 		A24585D12894D9250051222F /* LearningStoreKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningStoreKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A24585D42894D9250051222F /* LearningStoreKitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStoreKitApp.swift; sourceTree = "<group>"; };
 		A24585D62894D9250051222F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				A24585E32894DDAE0051222F /* ContentViewModel.swift */,
 				A24585E52894FCF30051222F /* InAppPurchaseObserver.swift */,
 				A2B40755289E906000A4B02C /* SubscriptionsView.swift */,
+				A2410724289EA42E00D2916C /* AvailableSubscriptionView.swift */,
 				A24585D82894D9270051222F /* Assets.xcassets */,
 				A24585DA2894D9270051222F /* Preview Content */,
 				A24585E22894DB780051222F /* Configuration.storekit */,
@@ -151,6 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2410725289EA42E00D2916C /* AvailableSubscriptionView.swift in Sources */,
 				A24585D72894D9250051222F /* ContentView.swift in Sources */,
 				A24585E62894FCF30051222F /* InAppPurchaseObserver.swift in Sources */,
 				A24585D52894D9250051222F /* LearningStoreKitApp.swift in Sources */,

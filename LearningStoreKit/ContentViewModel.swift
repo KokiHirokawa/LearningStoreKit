@@ -103,11 +103,7 @@ final class ContentViewModel: NSObject, ObservableObject {
         SKPaymentQueue.default().add(payment)
     }
 
-    func purchase2() async {
-        guard let product = products2.first else {
-            return
-        }
-
+    func purchase2(_ product: Product) async {
         do {
             let result = try await product.purchase()
             switch result {
