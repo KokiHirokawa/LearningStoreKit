@@ -35,7 +35,9 @@ struct ContentView: View {
                 Image(systemName: "coloncurrencysign.circle")
             }
 
+            SubscriptionsView()
         }
+        .environmentObject(viewModel)
     }
 }
 

@@ -7,6 +7,8 @@ final class ContentViewModel: NSObject, ObservableObject {
     @Published private(set) var products2: [Product] = []
     @Published private(set) var coinAmount: Int = 0
 
+    @Published private(set) var subscriptions: [Product] = []
+
     private var updateListenerTask: Task<Void, Error>? = nil
 
     private let inAppPurchaseObserver = InAppPurchaseObserver.shared
@@ -54,9 +56,35 @@ final class ContentViewModel: NSObject, ObservableObject {
 
     @MainActor
     func requestProducts2() async {
+        let sortByPrice: ([Product]) -> [Product] = {
+            $0.sorted(by: { $0.price < $1.price })
+        }
+
         do {
-            let products = try await Product.products(for: [Const.oneHundredCoinsProductID])
+            let products = try await Product.products(for: [
+                Const.oneHundredCoinsProductID,
+                "learning.premium.month",
+                "learning.premium.year"
+            ])
             self.products2 = products
+
+            var _subscriptions: [Product] = []
+
+            for product in products {
+                switch product.type {
+                case .consumable,
+                        .nonConsumable,
+                        .nonRenewable:
+                    // - TODO:
+                    break
+                case .autoRenewable:
+                    _subscriptions.append(product)
+                default:
+                    break
+                }
+            }
+
+            subscriptions = sortByPrice(_subscriptions)
         } catch {
             print("Failed product request from the App Store server: \(error)")
         }
