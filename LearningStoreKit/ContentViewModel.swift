@@ -3,11 +3,14 @@ import SwiftUI
 
 final class ContentViewModel: NSObject, ObservableObject {
 
+    typealias Transaction = StoreKit.Transaction
+
     @Published private(set) var products: [SKProduct] = []
     @Published private(set) var products2: [Product] = []
     @Published private(set) var coinAmount: Int = 0
 
     @Published private(set) var subscriptions: [Product] = []
+    @Published private(set) var currentSubscription: Product?
 
     private var updateListenerTask: Task<Void, Error>? = nil
 
@@ -23,6 +26,7 @@ final class ContentViewModel: NSObject, ObservableObject {
 
         Task {
             await requestProducts2()
+            await updateCustomerProductStatus()
         }
     }
 
@@ -126,8 +130,47 @@ final class ContentViewModel: NSObject, ObservableObject {
     }
 
     @MainActor
+    private func updateCustomerProductStatus() async {
+        var purchasedSubscriptions: [Product] = []
+
+        for await result in Transaction.currentEntitlements {
+            do {
+                let transaction = try checkVerified(result)
+
+                switch transaction.productType {
+                case .nonConsumable,
+                        .nonRenewable:
+                    // - TODO:
+                    break
+                case .autoRenewable:
+                    guard let subscription = subscriptions.first(where: { $0.id == transaction.productID }) else {
+                        break
+                    }
+                    purchasedSubscriptions.append(subscription)
+                default:
+                    break
+                }
+            } catch {
+                print("Failed to update customer product status")
+            }
+        }
+
+        // - FIXME: purchasedSubscriptionsが複数あった場合の考慮
+        currentSubscription = purchasedSubscriptions.first
+    }
+
+    @MainActor
     private func succeedToPurchaseCoins() {
         coinAmount = coinAmount + 100
+    }
+
+    private func checkVerified(_ result: VerificationResult<Transaction>) throws -> Transaction {
+        switch result {
+        case let .verified(transaction):
+            return transaction
+        case .unverified:
+            throw StoreError.failedVerification
+        }
     }
 }
 
