@@ -95,7 +95,7 @@
           "localizations" : [
             {
               "description" : "",
-              "displayName" : "",
+              "displayName" : "Premium - 1 month",
               "locale" : "en_US"
             }
           ],
@@ -120,7 +120,7 @@
           "localizations" : [
             {
               "description" : "",
-              "displayName" : "",
+              "displayName" : "Premium - 1 year",
               "locale" : "en_US"
             }
           ],
