@@ -20,6 +20,9 @@ struct LearningStoreKitApp: App {
 
 extension AppEnvironment {
     static var live: Self {
-        .init()
+        .init(
+            mainQueue: .main,
+            storeKit: .live()
+        )
     }
 }

@@ -34,14 +34,6 @@ public enum AppAction {
     case premium(PremiumAction)
 }
 
-public struct AppEnvironment {
-    public init() {}
-
-    var premium: PremiumEnvironment {
-        .init()
-    }
-}
-
 public let appReducer = Reducer<AppState, AppAction, AppEnvironment>
     .combine(
         premiumReducer

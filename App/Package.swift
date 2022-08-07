@@ -10,7 +10,8 @@ let package = Package(
     ],
     products: [
         .library(name: "App", targets: ["App"]),
-        .library(name: "PremiumFeature", targets: ["PremiumFeature"])
+        .library(name: "PremiumFeature", targets: ["PremiumFeature"]),
+        .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"])
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.38.3")
@@ -19,13 +20,20 @@ let package = Package(
         .target(
             name: "App",
             dependencies: [
+                "ComposableStoreKit",
                 "PremiumFeature"
             ]
         ),
         .testTarget(name: "AppTests", dependencies: ["App"]),
-
         .target(
             name: "PremiumFeature",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "ComposableStoreKit"
+            ]
+        ),
+        .target(
+            name: "ComposableStoreKit",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
