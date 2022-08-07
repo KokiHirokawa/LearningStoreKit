@@ -7,7 +7,19 @@ struct LearningStoreKitApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
+            RootView(
+                store: .init(
+                    initialState: .init(),
+                    reducer: appReducer,
+                    environment: .live
+                )
+            )
         }
+    }
+}
+
+extension AppEnvironment {
+    static var live: Self {
+        .init()
     }
 }
