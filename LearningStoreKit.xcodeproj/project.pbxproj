@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A2410725289EA42E00D2916C /* AvailableSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2410724289EA42E00D2916C /* AvailableSubscriptionView.swift */; };
+		A2410729289F451A00D2916C /* App in Frameworks */ = {isa = PBXBuildFile; productRef = A2410728289F451A00D2916C /* App */; };
 		A24585D52894D9250051222F /* LearningStoreKitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585D42894D9250051222F /* LearningStoreKitApp.swift */; };
 		A24585D72894D9250051222F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585D62894D9250051222F /* ContentView.swift */; };
 		A24585D92894D9270051222F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A24585D82894D9270051222F /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		A2410724289EA42E00D2916C /* AvailableSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableSubscriptionView.swift; sourceTree = "<group>"; };
+		A2410726289F44A300D2916C /* App */ = {isa = PBXFileReference; lastKnownFileType = text; path = App; sourceTree = SOURCE_ROOT; };
 		A24585D12894D9250051222F /* LearningStoreKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningStoreKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A24585D42894D9250051222F /* LearningStoreKitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStoreKitApp.swift; sourceTree = "<group>"; };
 		A24585D62894D9250051222F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,17 +39,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2410729289F451A00D2916C /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A2410727289F451A00D2916C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A24585C82894D9250051222F = {
 			isa = PBXGroup;
 			children = (
+				A2410726289F44A300D2916C /* App */,
 				A24585D32894D9250051222F /* LearningStoreKit */,
 				A24585D22894D9250051222F /* Products */,
+				A2410727289F451A00D2916C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +112,9 @@
 			dependencies = (
 			);
 			name = LearningStoreKit;
+			packageProductDependencies = (
+				A2410728289F451A00D2916C /* App */,
+			);
 			productName = LearningStoreKit;
 			productReference = A24585D12894D9250051222F /* LearningStoreKit.app */;
 			productType = "com.apple.product-type.application";
@@ -361,6 +376,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A2410728289F451A00D2916C /* App */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = App;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A24585C92894D9250051222F /* Project object */;
 }
