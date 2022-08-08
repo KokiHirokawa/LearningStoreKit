@@ -1,3 +1,4 @@
+import Combine
 import ComposableArchitecture
 import ComposableStoreKit
 import SwiftUI
@@ -16,6 +17,13 @@ public struct PremiumView: View {
                 ProgressView()
             } else {
                 List {
+                    if let currentSubscription = viewStore.currentSubscription {
+                        Section("My Subscription") {
+                            Text(currentSubscription.displayName)
+                                .foregroundColor(.orange)
+                        }
+                    }
+
                     Section("Navigation: Auto-Renewable Subscription") {
                         ForEach(viewStore.subscriptions) { subscription in
                             Text(subscription.displayName)
@@ -32,16 +40,19 @@ public struct PremiumView: View {
 
 struct PremiumViewState: Equatable {
     public var isLoading: Bool
+    public var currentSubscription: StoreKitClient.Product?
     public var subscriptions: [StoreKitClient.Product]
 
     init(state: PremiumState) {
         self.isLoading = state.isLoading
+        self.currentSubscription = state.currentSubscription
         self.subscriptions = state.subscriptions
     }
 }
 
 public struct PremiumState {
     public var isLoading: Bool = false
+    public var currentSubscription: StoreKitClient.Product?
     public var subscriptions: [StoreKitClient.Product] = []
 
     public init() {}
@@ -49,6 +60,7 @@ public struct PremiumState {
 
 public enum PremiumAction {
     case onAppear
+    case currentSubscriptionResponse(StoreKitClient.Product?)
     case productsResponse(Result<[StoreKitClient.Product], Error>)
     case subscribe
 }
@@ -72,13 +84,38 @@ public let premiumReducer = Reducer<PremiumState, PremiumAction, PremiumEnvironm
             switch action {
             case .onAppear:
                 state.isLoading = true
-                return environment.storeKit
-                    .fetchProducts([
-                        "learning.premium.month",
-                        "learning.premium.year"
-                    ])
+
+                let storeKit = environment.storeKit
+                let combined = Publishers.CombineLatest(
+                    storeKit
+                        .fetchProducts([
+                            "learning.premium.month",
+                            "learning.premium.year"
+                        ])
+                        .upstream,
+                    storeKit.fetchPurchasedProductIDs().upstream
+                )
                     .receive(on: environment.mainQueue)
-                    .catchToEffect(PremiumAction.productsResponse)
+                    .share()
+
+                return .merge(
+                    combined
+                        .map { subscriptions, purchasedProductIDs in
+                            subscriptions.first { purchasedProductIDs.contains($0.id) }
+                        }
+                        .replaceError(with: nil)
+                        .eraseToEffect(PremiumAction.currentSubscriptionResponse),
+
+                    combined
+                        .map { subscriptions, purchasedProductIDs in
+                            subscriptions.filter { !purchasedProductIDs.contains($0.id) }
+                        }
+                        .catchToEffect(PremiumAction.productsResponse)
+                )
+
+            case let .currentSubscriptionResponse(subscription):
+                state.currentSubscription = subscription
+                return .none
 
             case let .productsResponse(.success(products)):
                 state.isLoading = false
