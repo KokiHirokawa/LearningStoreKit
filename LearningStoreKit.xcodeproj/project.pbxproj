@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A2410725289EA42E00D2916C /* AvailableSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2410724289EA42E00D2916C /* AvailableSubscriptionView.swift */; };
-		A2410729289F451A00D2916C /* App in Frameworks */ = {isa = PBXBuildFile; productRef = A2410728289F451A00D2916C /* App */; };
+		A241073628A5409600D2916C /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = A241073528A5409600D2916C /* AppFeature */; };
 		A24585D52894D9250051222F /* LearningStoreKitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585D42894D9250051222F /* LearningStoreKitApp.swift */; };
 		A24585D72894D9250051222F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24585D62894D9250051222F /* ContentView.swift */; };
 		A24585D92894D9270051222F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A24585D82894D9270051222F /* Assets.xcassets */; };
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2410729289F451A00D2916C /* App in Frameworks */,
+				A241073628A5409600D2916C /* AppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +113,7 @@
 			);
 			name = LearningStoreKit;
 			packageProductDependencies = (
-				A2410728289F451A00D2916C /* App */,
+				A241073528A5409600D2916C /* AppFeature */,
 			);
 			productName = LearningStoreKit;
 			productReference = A24585D12894D9250051222F /* LearningStoreKit.app */;
@@ -378,9 +378,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A2410728289F451A00D2916C /* App */ = {
+		A241073528A5409600D2916C /* AppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = App;
+			productName = AppFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

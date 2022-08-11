@@ -1,4 +1,4 @@
-import App
+import AppFeature
 import SwiftUI
 
 @main
@@ -7,7 +7,7 @@ struct LearningStoreKitApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(
+            AppView(
                 store: .init(
                     initialState: .init(),
                     reducer: appReducer,

@@ -2,7 +2,7 @@ import ComposableArchitecture
 import PremiumFeature
 import SwiftUI
 
-public struct RootView: View {
+public struct AppView: View {
 
     let store: Store<AppState, AppAction>
 

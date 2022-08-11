@@ -9,7 +9,7 @@ let package = Package(
         .iOS(.v15)
     ],
     products: [
-        .library(name: "App", targets: ["App"]),
+        .library(name: "AppFeature", targets: ["AppFeature"]),
         .library(name: "PremiumFeature", targets: ["PremiumFeature"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"])
     ],
@@ -18,13 +18,13 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "App",
+            name: "AppFeature",
             dependencies: [
                 "ComposableStoreKit",
                 "PremiumFeature"
             ]
         ),
-        .testTarget(name: "AppTests", dependencies: ["App"]),
+        .testTarget(name: "AppTests", dependencies: ["AppFeature"]),
         .target(
             name: "PremiumFeature",
             dependencies: [
