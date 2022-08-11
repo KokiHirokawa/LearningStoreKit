@@ -10,7 +10,7 @@ let package = Package(
     ],
     products: [
         .library(name: "AppFeature", targets: ["AppFeature"]),
-        .library(name: "PremiumFeature", targets: ["PremiumFeature"]),
+        .library(name: "EntranceFeature", targets: ["EntranceFeature"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"])
     ],
     dependencies: [
@@ -21,12 +21,12 @@ let package = Package(
             name: "AppFeature",
             dependencies: [
                 "ComposableStoreKit",
-                "PremiumFeature"
+                "EntranceFeature"
             ]
         ),
         .testTarget(name: "AppTests", dependencies: ["AppFeature"]),
         .target(
-            name: "PremiumFeature",
+            name: "EntranceFeature",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 "ComposableStoreKit"

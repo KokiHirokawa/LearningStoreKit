@@ -1,6 +1,6 @@
 import CombineSchedulers
 import ComposableStoreKit
-import PremiumFeature
+import EntranceFeature
 
 public struct AppEnvironment {
     public var mainQueue: AnySchedulerOf<DispatchQueue>

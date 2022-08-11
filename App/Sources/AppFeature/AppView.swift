@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import PremiumFeature
+import EntranceFeature
 import SwiftUI
 
 public struct AppView: View {
