@@ -60,8 +60,9 @@ public struct PremiumState {
 
 public enum PremiumAction {
     case onAppear
-    case currentSubscriptionResponse(StoreKitClient.Product?)
     case productsResponse(Result<[StoreKitClient.Product], Error>)
+    case fetchCurrentSubscription
+    case currentSubscriptionResponse(StoreKitClient.Product?)
     case subscribe
 }
 
@@ -85,41 +86,31 @@ public let premiumReducer = Reducer<PremiumState, PremiumAction, PremiumEnvironm
             case .onAppear:
                 state.isLoading = true
 
-                let storeKit = environment.storeKit
-                let combined = Publishers.CombineLatest(
-                    storeKit
-                        .fetchProducts([
-                            "learning.premium.month",
-                            "learning.premium.year"
-                        ])
-                        .upstream,
-                    storeKit.fetchPurchasedProductIDs().upstream
-                )
-                    .receive(on: environment.mainQueue)
-                    .share()
-
-                return .merge(
-                    combined
-                        .map { subscriptions, purchasedProductIDs in
-                            subscriptions.first { purchasedProductIDs.contains($0.id) }
-                        }
-                        .replaceError(with: nil)
-                        .eraseToEffect(PremiumAction.currentSubscriptionResponse),
-
-                    combined
-                        .map { subscriptions, purchasedProductIDs in
-                            subscriptions.filter { !purchasedProductIDs.contains($0.id) }
-                        }
-                        .catchToEffect(PremiumAction.productsResponse)
-                )
-
-            case let .currentSubscriptionResponse(subscription):
-                state.currentSubscription = subscription
-                return .none
+                return environment.storeKit
+                    .fetchProducts([
+                        "learning.premium.month",
+                        "learning.premium.year"
+                    ])
+                    .catchToEffect(PremiumAction.productsResponse)
+                    .merge(with: .init(value: .fetchCurrentSubscription))
+                    .eraseToEffect()
 
             case let .productsResponse(.success(products)):
                 state.isLoading = false
                 state.subscriptions = products
+                return .none
+
+            case .fetchCurrentSubscription:
+                let subscriptions = state.subscriptions
+                return environment.storeKit
+                    .fetchPurchasedProductIDs()
+                    .map { productIDs in
+                        let currentSubscription = subscriptions.first { productIDs.contains($0.id) }
+                        return PremiumAction.currentSubscriptionResponse(currentSubscription)
+                    }
+
+            case let .currentSubscriptionResponse(subscription):
+                state.currentSubscription = subscription
                 return .none
 
             case .productsResponse(.failure):

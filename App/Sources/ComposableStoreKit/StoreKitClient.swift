@@ -3,7 +3,7 @@ import StoreKit
 
 public struct StoreKitClient {
     public var fetchProducts: (Set<String>) -> Effect<[Product], Error>
-    public var fetchPurchasedProductIDs: () -> Effect<[Product.ID], Error>
+    public var fetchPurchasedProductIDs: () -> Effect<[Product.ID], Never>
 }
 
 extension StoreKitClient {
