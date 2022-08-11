@@ -26,7 +26,17 @@ public struct PremiumView: View {
 
                     Section("Navigation: Auto-Renewable Subscription") {
                         ForEach(viewStore.subscriptions) { subscription in
-                            Text(subscription.displayName)
+                            HStack {
+                                Text(subscription.displayName)
+
+                                Spacer()
+
+                                Button {
+                                    viewStore.send(.subscribe(subscription))
+                                } label: {
+                                    Text("Subscribe")
+                                }
+                            }
                         }
                     }
                 }
@@ -63,7 +73,8 @@ public enum PremiumAction {
     case productsResponse(Result<[StoreKitClient.Product], Error>)
     case fetchCurrentSubscription
     case currentSubscriptionResponse(StoreKitClient.Product?)
-    case subscribe
+    case subscribe(StoreKitClient.Product)
+    case subscribeResponse(Result<Void, Error>)
 }
 
 public struct PremiumEnvironment {
@@ -100,6 +111,10 @@ public let premiumReducer = Reducer<PremiumState, PremiumAction, PremiumEnvironm
                 state.subscriptions = products
                 return .none
 
+            case .productsResponse(.failure):
+                state.isLoading = false
+                return .none
+
             case .fetchCurrentSubscription:
                 let subscriptions = state.subscriptions
                 return environment.storeKit
@@ -113,11 +128,15 @@ public let premiumReducer = Reducer<PremiumState, PremiumAction, PremiumEnvironm
                 state.currentSubscription = subscription
                 return .none
 
-            case .productsResponse(.failure):
-                state.isLoading = false
-                return .none
+            case let .subscribe(product):
+                return environment.storeKit.purchase(product)
+                    .catchToEffect(PremiumAction.subscribeResponse)
 
-            case .subscribe:
+            case .subscribeResponse(.success):
+                return .init(value: PremiumAction.fetchCurrentSubscription)
+
+            case .subscribeResponse(.failure):
+                // FIXME: Show alert
                 return .none
             }
         }
