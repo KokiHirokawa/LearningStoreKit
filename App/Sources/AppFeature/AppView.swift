@@ -2,44 +2,34 @@ import ComposableArchitecture
 import EntranceFeature
 import SwiftUI
 
+struct AppViewState: Equatable {
+    let isEntrancePresented: Bool
+
+    init(state: AppState) {
+        self.isEntrancePresented = state.entrance != nil
+    }
+}
+
 public struct AppView: View {
 
     let store: Store<AppState, AppAction>
+    @ObservedObject var viewStore: ViewStore<AppViewState, AppAction>
 
     public init(store: Store<AppState, AppAction>) {
         self.store = store
+        self.viewStore = ViewStore(self.store.scope(state: AppViewState.init(state:)))
     }
 
     public var body: some View {
-        TabView {
-            PremiumView(store: store.scope(state: \.premium, action: AppAction.premium))
-                .tabItem {
-                    Text("Premium")
-                }
+        Group {
+            if viewStore.isEntrancePresented {
+                IfLetStore(
+                    store.scope(state: \.entrance, action: AppAction.entrance),
+                    then: EntranceView.init(store:)
+                )
+            } else {
+                Text("Hello World")
+            }
         }
     }
 }
-
-public struct AppState {
-    public var premium: PremiumState
-
-    public init(
-        premium: PremiumState = .init()
-    ) {
-        self.premium = premium
-    }
-}
-
-public enum AppAction {
-    case premium(PremiumAction)
-}
-
-public let appReducer = Reducer<AppState, AppAction, AppEnvironment>
-    .combine(
-        premiumReducer
-            .pullback(
-                state: \AppState.premium,
-                action: /AppAction.premium,
-                environment: \.premium
-            )
-    )

@@ -2,8 +2,8 @@ import ComposableArchitecture
 import ComposableStoreKit
 
 public struct EntranceState {
-    public var isLoading: Bool = false
-    public var currentSubscription: StoreKitClient.Product?
+    public var isLoading = false
+    public var isSubscribeButtonEnabled = false
     public var subscriptions: [StoreKitClient.Product] = []
 
     public init() {}
@@ -11,11 +11,10 @@ public struct EntranceState {
 
 public enum EntranceAction {
     case onAppear
-    case productsResponse(Result<[StoreKitClient.Product], Error>)
-    case fetchCurrentSubscription
-    case currentSubscriptionResponse(StoreKitClient.Product?)
+    case subscriptionsResponse(Result<[StoreKitClient.Product], Error>)
     case subscribe(StoreKitClient.Product)
-    case subscribeResponse(Result<Void, Error>)
+    case succeededSubscribe
+    case failedSubscribe(Error)
 }
 
 public struct EntranceEnvironment {
@@ -43,40 +42,32 @@ public let entranceReducer = Reducer<EntranceState, EntranceAction, EntranceEnvi
                         "learning.premium.month",
                         "learning.premium.year"
                     ])
-                    .catchToEffect(EntranceAction.productsResponse)
-                    .merge(with: .init(value: .fetchCurrentSubscription))
-                    .eraseToEffect()
+                    .catchToEffect(EntranceAction.subscriptionsResponse)
 
-            case let .productsResponse(.success(products)):
+            case let .subscriptionsResponse(.success(subscriptions)):
                 state.isLoading = false
-                state.subscriptions = products
+                state.subscriptions = subscriptions
                 return .none
 
-            case .productsResponse(.failure):
+            case .subscriptionsResponse(.failure):
                 state.isLoading = false
-                return .none
-
-            case .fetchCurrentSubscription:
-                let subscriptions = state.subscriptions
-                return environment.storeKit
-                    .fetchPurchasedProductIDs()
-                    .map { productIDs in
-                        let currentSubscription = subscriptions.first { productIDs.contains($0.id) }
-                        return EntranceAction.currentSubscriptionResponse(currentSubscription)
-                    }
-
-            case let .currentSubscriptionResponse(subscription):
-                state.currentSubscription = subscription
                 return .none
 
             case let .subscribe(product):
                 return environment.storeKit.purchase(product)
-                    .catchToEffect(EntranceAction.subscribeResponse)
+                    .catchToEffect {
+                        switch $0 {
+                        case .success:
+                            return EntranceAction.succeededSubscribe
+                        case let .failure(error):
+                            return EntranceAction.failedSubscribe(error)
+                        }
+                    }
 
-            case .subscribeResponse(.success):
-                return .init(value: EntranceAction.fetchCurrentSubscription)
+            case .succeededSubscribe:
+                return .none
 
-            case .subscribeResponse(.failure):
+            case .failedSubscribe:
                 // FIXME: Show alert
                 return .none
             }

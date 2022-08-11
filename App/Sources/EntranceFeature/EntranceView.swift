@@ -5,12 +5,12 @@ import SwiftUI
 
 struct EntranceViewState: Equatable {
     public var isLoading: Bool
-    public var currentSubscription: StoreKitClient.Product?
+    public var isSubscribeButtonEnabled: Bool
     public var subscriptions: [StoreKitClient.Product]
 
     init(state: EntranceState) {
         self.isLoading = state.isLoading
-        self.currentSubscription = state.currentSubscription
+        self.isSubscribeButtonEnabled = state.isSubscribeButtonEnabled
         self.subscriptions = state.subscriptions
     }
 }
@@ -28,28 +28,11 @@ public struct EntranceView: View {
             if viewStore.isLoading {
                 ProgressView()
             } else {
-                List {
-                    if let currentSubscription = viewStore.currentSubscription {
-                        Section("My Subscription") {
-                            Text(currentSubscription.displayName)
-                                .foregroundColor(.orange)
-                        }
-                    }
-
-                    Section("Navigation: Auto-Renewable Subscription") {
-                        ForEach(viewStore.subscriptions) { subscription in
-                            HStack {
-                                Text(subscription.displayName)
-
-                                Spacer()
-
-                                Button {
-                                    viewStore.send(.subscribe(subscription))
-                                } label: {
-                                    Text("Subscribe")
-                                }
-                            }
-                        }
+                ForEach(viewStore.subscriptions) { subscription in
+                    Button {
+                        viewStore.send(.subscribe(subscription))
+                    } label: {
+                        Text("Test")
                     }
                 }
             }

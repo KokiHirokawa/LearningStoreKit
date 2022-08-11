@@ -16,7 +16,7 @@ public struct AppEnvironment {
 }
 
 extension AppEnvironment {
-    var premium: PremiumEnvironment {
+    var entrance: EntranceEnvironment {
         .init(
             mainQueue: mainQueue,
             storeKit: storeKit
