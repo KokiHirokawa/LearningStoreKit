@@ -17,21 +17,6 @@ extension StoreKitClient {
                         }
                 }
             },
-            fetchPurchasedProductIDs: {
-                Effect.task {
-                    var purchasedProductIDs: [Product.ID] = []
-
-                    for await result in Transaction.currentEntitlements {
-                        guard case let .verified(transaction) = result else {
-                            continue
-                        }
-                        let productID = transaction.productID
-                        purchasedProductIDs.append(productID)
-                    }
-
-                    return purchasedProductIDs
-                }
-            },
             purchase: { product in
                 Effect
                     .task {
@@ -61,6 +46,25 @@ extension StoreKitClient {
                             throw PurchaseError.unknown
                         }
                     }
+            },
+            fetchCurrentEntitlements: {
+                Effect.task {
+                    var currentEntitlements: [StoreKitClient.VerificationResult<StoreKitClient.Transaction>] = []
+
+                    for await result in StoreKit.Transaction.currentEntitlements {
+                        switch result {
+                        case let .verified(transaction):
+                            let _transaction = StoreKitClient.Transaction(
+                                productType: transaction.productType
+                            )
+                            currentEntitlements.append(.verified(_transaction))
+                        case .unverified:
+                            currentEntitlements.append(.unverified)
+                        }
+                    }
+
+                    return currentEntitlements
+                }
             }
         )
     }

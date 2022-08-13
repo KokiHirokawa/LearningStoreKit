@@ -19,8 +19,23 @@ public enum AppAction {
 private let appReducerCore = Reducer<AppState, AppAction, AppEnvironment> { state, action, environment in
     switch action {
     case .appDelegate(.didFinishLaunching):
-        // - FIXME: Check current subscription
-        state.entrance = .init()
+        return environment.storeKit.fetchCurrentEntitlements()
+            .map {
+                $0.contains {
+                    switch $0 {
+                    case .unverified:
+                        return false
+                    case let .verified(transaction):
+                        return transaction.productType == .autoRenewable
+                    }
+                }
+            }
+            .map { AppAction.appDelegate(.initialized($0)) } // - FIXME: Create appDelegateReducer
+
+    case let .appDelegate(.initialized(isSubscribingUser)):
+        if !isSubscribingUser {
+            state.entrance = .init()
+        }
         return .none
 
     case .entrance(.succeededSubscribe):
