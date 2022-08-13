@@ -11,6 +11,16 @@ extension StoreKitClient {
     public struct Product: Equatable, Identifiable {
         public typealias ID = String
 
+        public init(
+            id: ID,
+            displayName: String,
+            rawValue: StoreKit.Product?
+        ) {
+            self.id = id
+            self.displayName = displayName
+            self.rawValue = rawValue
+        }
+
         public var id: ID
         public var displayName: String
         public var rawValue: StoreKit.Product?
