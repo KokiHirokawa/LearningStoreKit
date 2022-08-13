@@ -24,16 +24,30 @@ public struct EntranceView: View {
     }
 
     public var body: some View {
-        VStack {
+        Group {
             if viewStore.isLoading {
                 ProgressView()
                     .tint(.white)
             } else {
-                ForEach(viewStore.subscriptions) { subscription in
-                    Button {
-                        viewStore.send(.subscribe(subscription))
-                    } label: {
-                        Text(subscription.displayName)
+                VStack {
+                    Text("Hello World!")
+                        .font(.system(size: 36, weight: .bold))
+                        .foregroundColor(.white)
+                        .padding([.bottom], 48)
+
+                    ForEach(viewStore.subscriptions) { subscription in
+                        Button {
+                            viewStore.send(.subscribe(subscription))
+                        } label: {
+                            Text(subscription.displayName)
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundColor(.black)
+                            // - TODO: Show price
+                        }
+                        .frame(width: 300, height: 48, alignment: .center)
+                        .background(.white)
+                        .cornerRadius(12)
+                        .padding([.horizontal], 32)
                     }
                 }
             }
