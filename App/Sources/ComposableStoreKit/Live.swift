@@ -33,38 +33,34 @@ extension StoreKitClient {
                 }
             },
             purchase: { product in
-                Effect.task {
-                    guard let product = product.rawValue else {
-                        // - FIXME: Error handling
-                        return
-                    }
-
-                    let result = try await product.purchase()
-                    switch result {
-                    case let .success(verificationResult):
-                        switch verificationResult {
-                        case let .verified(transaction):
-                            await transaction.finish()
-                            return
-
-                        case .unverified:
-                            // - FIXME: Error handling
-                            return
+                Effect
+                    .task {
+                        guard let product = product.rawValue else {
+                            fatalError("Development error")
                         }
 
-                    case .pending:
-                        // - FIXME: Error handling
-                        return
+                        let result = try await product.purchase()
+                        switch result {
+                        case let .success(verificationResult):
+                            switch verificationResult {
+                            case let .verified(transaction):
+                                await transaction.finish()
+                                return
 
-                    case .userCancelled:
-                        // - FIXME: Error handling
-                        return
+                            case .unverified:
+                                throw PurchaseError.unverified
+                            }
 
-                    @unknown default:
-                        // - FIXME: Error handling
-                        return
+                        case .pending:
+                            throw PurchaseError.pending
+
+                        case .userCancelled:
+                            throw PurchaseError.userCancelled
+
+                        @unknown default:
+                            throw PurchaseError.unknown
+                        }
                     }
-                }
             }
         )
     }
