@@ -11,6 +11,7 @@ let package = Package(
     products: [
         .library(name: "AppFeature", targets: ["AppFeature"]),
         .library(name: "EntranceFeature", targets: ["EntranceFeature"]),
+        .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"])
     ],
     dependencies: [
@@ -30,6 +31,12 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 "ComposableStoreKit"
+            ]
+        ),
+        .target(
+            name: "GameFeature",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
