@@ -1,6 +1,7 @@
-typealias Grids = [[Grid]]
+import Foundation
 
-struct Grid {
+public struct Grid: Equatable, Identifiable {
+    public let id = UUID()
     let movableDirections: Set<Direction>
     let isGoal: Bool
 }
@@ -24,8 +25,10 @@ extension Grid {
 }
 
 extension Grid {
-    static let normal = Grid(
-        movableDirections: [.up, .left, .down, .right],
-        isGoal: false
-    )
+    static func normal() -> Grid {
+        .init(
+            movableDirections: [.up, .left, .down, .right],
+            isGoal: false
+        )
+    }
 }

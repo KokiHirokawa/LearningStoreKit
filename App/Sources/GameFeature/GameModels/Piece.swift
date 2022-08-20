@@ -1,31 +1,31 @@
-struct Piece {
+public struct Piece: Equatable {
     let position: Position
 }
 
 extension Piece {
-    func move(direction: Direction, on grids: Grids) -> Piece {
+    func move(direction: Direction, on board: Board) -> Piece {
         switch direction {
         case .up:
-            return moveUp(on: grids)
+            return moveUp(on: board)
         case .left:
-            return moveLeft(on: grids)
+            return moveLeft(on: board)
         case .down:
-            return moveDown(on: grids)
+            return moveDown(on: board)
         case .right:
-            return moveRight(on: grids)
+            return moveRight(on: board)
         }
     }
     
-    func isReachedGoal(on grids: Grids) -> Bool {
-        let grid = grids[position.y][position.x]
+    func isReachedGoal(on board: Board) -> Bool {
+        let grid = board[position.y][position.x]
         return grid.isGoal
     }
 }
 
 extension Piece {
-    private func moveUp(on grids: Grids) -> Piece {
+    private func moveUp(on board: Board) -> Piece {
         let canMoveUp: (Int) -> Bool = { y in
-            let grid = grids[y][position.x]
+            let grid = board[y][position.x]
             return y > 0 && grid.canMoveUp
         }
         
@@ -38,9 +38,9 @@ extension Piece {
         return .init(position: newPosition)
     }
     
-    private func moveLeft(on grids: Grids) -> Piece {
+    private func moveLeft(on board: Board) -> Piece {
         let canMoveLeft: (Int) -> Bool = { x in
-            let grid = grids[position.y][x]
+            let grid = board[position.y][x]
             return x > 0 && grid.canMoveLeft
         }
         
@@ -53,9 +53,9 @@ extension Piece {
         return .init(position: newPosition)
     }
     
-    private func moveDown(on grids: Grids) -> Piece {
+    private func moveDown(on board: Board) -> Piece {
         let canMoveDown: (Int) -> Bool = { y in
-            let grid = grids[y][position.x]
+            let grid = board[y][position.x]
             return y < gridSize - 1 && grid.canMoveDown
         }
         
@@ -68,9 +68,9 @@ extension Piece {
         return .init(position: newPosition)
     }
     
-    private func moveRight(on grids: Grids) -> Piece {
+    private func moveRight(on board: Board) -> Piece {
         let canMoveRight: (Int) -> Bool = { x in
-            let grid = grids[position.y][x]
+            let grid = board[position.y][x]
             return x < gridSize - 1 && grid.canMoveRight
         }
         
